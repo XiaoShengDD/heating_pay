@@ -1,0 +1,105 @@
+<template>
+  <div class="success">
+    <van-nav-bar :title="title" left-text="返回" left-arrow @click-left="onClickLeft" />
+    <swiper />
+
+    <div v-if="flag == 1">
+      <!-- <div class="payInfo" v-if="dataJson.length == 1">
+        <p>住户编号：{{ dataJson[0].householdSn }}</p>
+        <p>姓名：{{ dataJson[0].householdName }}</p>
+        <p>代缴编号：{{ dataJson[0].exchangeSn }}</p>
+        <p>房屋地址：{{ dataJson[0].houseAddress }}</p>
+        <p>建筑面积：{{ dataJson[0].acreage }}</p>
+        <p>缴费类型：{{ dataJson[0].chargingStandardCategory }}</p>
+        <p>应缴金额：{{ dataJson[0].orderPrice }}</p>
+      </div>-->
+
+      <van-collapse v-model="activeNames">
+        <van-collapse-item
+          :title="'住户编号：' + item.householdSn"
+          v-for="(item,index) in dataJson"
+          :key="item.id"
+          :name="index"
+        >
+          <div class="payInfo">
+            <p>住户编号：{{ item.householdSn }}</p>
+            <p>姓名：{{ item.householdName }}</p>
+            <p>代缴编号：{{ item.exchangeSn }}</p>
+            <p>房屋地址：{{ item.houseAddress }}</p>
+            <p>建筑面积：{{ item.acreage }}</p>
+            <p>缴费类型：{{ item.chargingStandardCategory }}</p>
+            <p>应缴金额：{{ item.orderPrice }}</p>
+          </div>
+
+          <div style="margin: 20px 50px;">
+            <van-button round block type="info" @click="submit" native-type="submit">立即缴费</van-button>
+          </div>
+        </van-collapse-item>
+      </van-collapse>
+    </div>
+
+    <div v-if="flag == 2">
+      <p class="error">对不起，您查询的缴费信息不存在，请核对住户编号和房屋地址是否正确</p>
+    </div>
+  </div>
+</template>
+
+<script>
+import Swiper from '@/components/swiper' // secondary package based on el-pagination
+import { wxHouseholdSearch, subimtOrder } from '@/api/index'
+export default {
+  name: 'success',
+  components: { Swiper },
+  data() {
+    return {
+      flag: 0,
+      dataJson: [],
+      title: '',
+      right: '',
+      activeNames: [0],
+    }
+  },
+  created() {
+    this.getPayInfo()
+  },
+  methods: {
+    getPayInfo() {
+      wxHouseholdSearch({ houseSnOrAddress: this.$route.query.id }).then(
+        (res) => {
+          if (res.errmsg == '成功') {
+            this.title = '缴费记录明细'
+            this.dataJson = res.data
+            this.flag = 1
+          } else {
+            this.title = '未查询到缴费信息'
+            this.flag = 2
+          }
+        }
+      )
+    },
+    onClickLeft() {
+      this.$router.go(-1) //返回上一层
+    },
+    //支付
+    submit() {
+      subimtOrder()
+    },
+  },
+}
+</script>
+
+<style lang="sass" scoped>
+.payInfo
+  padding: 30px 
+  text-align: left
+  p
+    margin-bottom: 5px
+
+.error 
+  padding: 10px
+  text-align: left
+  
+
+
+
+</style>>
