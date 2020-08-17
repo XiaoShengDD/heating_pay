@@ -4,7 +4,7 @@
 
     <div style="height:50px"></div>
     <van-tabbar v-model="active">
-      <van-tabbar-item replace to="/home" icon="home-o">公告</van-tabbar-item>
+      <van-tabbar-item replace to="/" icon="home-o">公告</van-tabbar-item>
       <van-tabbar-item replace to="/pay" icon="search">缴费</van-tabbar-item>
       <van-tabbar-item replace to="/list" icon="label-o">缴费历史</van-tabbar-item>
     </van-tabbar>
@@ -33,8 +33,9 @@ export default {
       }
       if (!window.localStorage.getItem("openid")) {
         // 获取openId
-        if (newRoute.query.code) {
-          this.getCode(newRoute.query.code);
+        if (this.getQueryVariable("code")) {
+          let code = this.getQueryVariable("code").replace("&state=123", "");
+          this.getCode(code);
         } else {
           this.getCode();
         }
@@ -49,6 +50,7 @@ export default {
       // const code = this.$route.query.code
       if (code) {
         // 获取openid
+        window.localStorage.setItem("openid", 1111111111);
         wxLogin(code).then((res) => {});
       } else {
         const local = window.location.href;
@@ -56,8 +58,19 @@ export default {
           this.AppId
         }&redirect_uri=${encodeURIComponent(
           local
-        )}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
+        )}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`;
       }
+    },
+    getQueryVariable(variable) {
+      var query = window.location.search.substring(1);
+      var vars = query.split("&");
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == variable) {
+          return pair[1];
+        }
+      }
+      return false;
     },
   },
 };
