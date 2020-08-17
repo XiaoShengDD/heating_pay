@@ -3,8 +3,7 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
+const routes = [{
     path: '/home',
     name: 'Home',
     component: () => import('@/views/Home/index')
@@ -52,6 +51,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
+  mode: "hash",
   routes
 })
 

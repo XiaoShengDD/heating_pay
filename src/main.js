@@ -46,8 +46,6 @@ Vue.prototype.getUrlKey = getUrlKey;
 Vue.prototype.getQueryVariable = getUrlKey;
 
 
-
-
 Vue.config.productionTip = false
 
 new Vue({

@@ -11,60 +11,56 @@
   </div>
 </template>
 <script>
-import { wxLogin } from '@/api/index'
+import { wxLogin } from "@/api/index";
 export default {
   data() {
     return {
       active: 0,
-      AppId: 'wx1f69a35b38f4978e',
-    }
+      AppId: "wx1f69a35b38f4978e",
+    };
   },
   watch: {
     // 监听路由跳转。
     $route(newRoute, oldRoute) {
-      if (newRoute.name == 'Home') {
-        this.active = 0
+      if (newRoute.name == "Home") {
+        this.active = 0;
       }
-      if (newRoute.name == 'Pay') {
-        this.active = 1
+      if (newRoute.name == "Pay") {
+        this.active = 1;
       }
-      if (newRoute.name == 'List') {
-        this.active = 2
+      if (newRoute.name == "List") {
+        this.active = 2;
       }
-      if (!window.localStorage.getItem('openid')) {
+      if (!window.localStorage.getItem("openid")) {
         // 获取openId
         if (newRoute.query.code) {
-          this.getCode(newRoute.query.code)
+          this.getCode(newRoute.query.code);
         } else {
-          this.getCode()
+          this.getCode();
         }
       }
     },
   },
   created() {
-    this.font_size() //rem响应式
+    this.font_size(); //rem响应式
   },
   methods: {
     getCode(code) {
       // const code = this.$route.query.code
       if (code) {
         // 获取openid
-        wxLogin(code).then((res) => {
-          debugger
-        })
+        wxLogin(code).then((res) => {});
       } else {
-        debugger
-
-        const local = window.location.href
+        const local = window.location.href;
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
           this.AppId
         }&redirect_uri=${encodeURIComponent(
           local
-        )}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
+        )}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
       }
     },
   },
-}
+};
 </script>
 <style>
 #app {
