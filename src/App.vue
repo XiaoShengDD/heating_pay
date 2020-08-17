@@ -11,69 +11,72 @@
   </div>
 </template>
 <script>
-import { wxLogin } from "@/api/index";
+import { wxLogin } from '@/api/index'
 export default {
   data() {
     return {
       active: 0,
-      AppId: "wx1f69a35b38f4978e",
-    };
+      AppId: 'wx1f69a35b38f4978e',
+    }
   },
   watch: {
     // 监听路由跳转。
     $route(newRoute, oldRoute) {
-      if (newRoute.name == "Home") {
-        this.active = 0;
+      if (newRoute.name == 'Home') {
+        this.active = 0
       }
-      if (newRoute.name == "Pay") {
-        this.active = 1;
+      if (newRoute.name == 'Pay') {
+        this.active = 1
       }
-      if (newRoute.name == "List") {
-        this.active = 2;
+      if (newRoute.name == 'List') {
+        this.active = 2
       }
-      if (!window.localStorage.getItem("openid")) {
+      if (!window.localStorage.getItem('openid')) {
         // 获取openId
-        if (this.getQueryVariable("code")) {
-          let code = this.getQueryVariable("code").replace("&state=123", "");
-          this.getCode(code);
+        if (this.getQueryVariable('code')) {
+          let code = this.getQueryVariable('code').replace('&state=123', '')
+          this.getCode(code)
         } else {
-          this.getCode();
+          this.getCode()
         }
       }
     },
   },
   created() {
-    this.font_size(); //rem响应式
+    this.font_size() //rem响应式
   },
   methods: {
     getCode(code) {
       // const code = this.$route.query.code
       if (code) {
         // 获取openid
-        window.localStorage.setItem("openid", 1111111111);
-        wxLogin(code).then((res) => {});
+        wxLogin(code).then((res) => {
+          if (res.errno == 0) {
+            window.localStorage.setItem('openid', res.data.openid)
+          }
+        })
       } else {
-        const local = window.location.href;
+        const local = window.location.href
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
           this.AppId
         }&redirect_uri=${encodeURIComponent(
           local
-        )}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`;
+        )}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`
       }
     },
     getQueryVariable(variable) {
-      var query = window.location.search.substring(1);
-      var vars = query.split("&");
+      var query = window.location.search.substring(1)
+      var vars = query.split('&')
       for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split("=");
+        var pair = vars[i].split('=')
         if (pair[0] == variable) {
-          return pair[1];
+          return pair[1]
         }
       }
-      return false;
+      return false
     },
   },
-};
+}
 </script>
 <style>
 #app {

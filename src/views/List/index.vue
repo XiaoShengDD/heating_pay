@@ -1,6 +1,6 @@
 <template>
   <div class="list">
-    <van-nav-bar title="缴费记录" left-text="返回" left-arrow @click-left="onClickLeft" />
+    <van-nav-bar title="缴费记录" />
     <swiper />
 
     <van-collapse accordion v-model="activeNames" @change="getPayInfo">
@@ -43,7 +43,7 @@ export default {
   methods: {
     getHistoryPay() {
       // 用户编号，全局变量
-      wxOrderList('32164').then((res) => {
+      wxOrderList(window.localStorage.getItem('openid')).then((res) => {
         for (let key in res.data) {
           this.list.push({
             date: key,
@@ -60,9 +60,7 @@ export default {
         }
       })
     },
-    onClickLeft() {
-      this.$router.go(-1) //返回上一层
-    },
+
     // 查询用户支付详细信息
     getPayInfo(index) {
       if (typeof index == 'number') {

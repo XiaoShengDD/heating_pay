@@ -1,6 +1,6 @@
 <template>
   <div class="pay">
-    <van-nav-bar title="查询缴费信息" left-arrow />
+    <van-nav-bar title="查询缴费信息" />
     <swiper />
     <div class="form_box">
       <van-form @submit="onSubmit">
@@ -27,7 +27,7 @@ export default {
   components: { Swiper },
   data() {
     return {
-      code: '32164',
+      code: '9999999',
     }
   },
   methods: {

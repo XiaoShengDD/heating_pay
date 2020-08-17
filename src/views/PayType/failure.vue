@@ -11,7 +11,7 @@
     <swiper />
 
     <div class="payInfo">
-      <p>失败原因失败原因失败原因失败原因失败原因失败原因失败原因</p>
+      <p>{{msg}}</p>
     </div>
   </div>
 </template>
@@ -24,14 +24,16 @@ export default {
   components: { Swiper },
   data() {
     return {
-      activeNames: ['1'],
+      msg: window.localStorage.getItem('msg'),
     }
   },
   methods: {
     onClickLeft() {
       this.$router.go(-1) //返回上一层
     },
-    onClickRight() {},
+    onClickRight() {
+      this.$router.go(-1) //返回上一层
+    },
   },
 }
 </script>

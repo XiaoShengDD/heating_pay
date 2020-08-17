@@ -63,7 +63,7 @@ export function wxLogin(code) {
 // 生成订单并统一下单
 export function subimtOrder(data) {
   return request({
-    url: "/heating/wxLogin/subimtOrder",
+    url: "/heating/subimtOrder",
     method: "post",
     data: data
   });
