@@ -45,11 +45,11 @@
 </template>
 
 <script>
-import Swiper from '@/components/swiper' // secondary package based on el-pagination
-import { Notify } from 'vant'
-import { wxHouseholdSearch, subimtOrder } from '@/api/index'
+import Swiper from "@/components/swiper"; // secondary package based on el-pagination
+import { Notify } from "vant";
+import { wxHouseholdSearch, subimtOrder } from "@/api/index";
 export default {
-  name: 'success',
+  name: "success",
   // components: { Swiper },
   components: {
     [Notify.Component.name]: Notify.Component,
@@ -59,80 +59,82 @@ export default {
     return {
       flag: 0,
       dataJson: [],
-      title: '',
-      right: '',
+      title: "",
+      right: "",
       activeNames: [0],
-    }
+    };
   },
   created() {
-    this.getPayInfo()
+    this.getPayInfo();
   },
   methods: {
     getPayInfo() {
       wxHouseholdSearch({ houseSnOrAddress: this.$route.query.id }).then(
         (res) => {
-          if (res.errmsg == '成功') {
-            this.title = '缴费记录明细'
-            this.dataJson = res.data
-            this.flag = 1
+          if (res.errmsg == "成功") {
+            this.title = "缴费记录明细";
+            this.dataJson = res.data;
+            this.flag = 1;
           } else {
-            this.title = '未查询到缴费信息'
-            this.flag = 2
+            this.title = "未查询到缴费信息";
+            this.flag = 2;
           }
         }
-      )
+      );
     },
     onClickLeft() {
-      this.$router.go(-1) //返回上一层
+      this.$router.go(-1); //返回上一层
     },
     //支付
     submit(info) {
-      let that = this
+      let that = this;
       let data = {
         orderPrice: info.orderPrice,
         householdSn: this.$route.query.id,
-        weixinOpenid: window.localStorage.getItem('openid'),
-      }
+        weixinOpenid: window.localStorage.getItem("openid"),
+      };
       subimtOrder(data).then((res) => {
         if (
           res.data.result.result_code &&
-          res.data.result.result_code == 'SUCCESS'
+          res.data.result.result_code == "SUCCESS"
         ) {
           // 调起支付
-          this.wx.WeixinJSBridge.invoke(
-            'getBrandWCPayRequest',
+          WeixinJSBridge.invoke(
+            "getBrandWCPayRequest",
             {
               appId: res.data.appId, //公众号名称，由商户传入
               timeStamp: res.data.timestamp, //时间戳，自1970年以来的秒数
               nonceStr: res.data.nonce_str, //随机串
               package: res.data.prepay_id,
-              signType: 'MD5', //微信签名方式：
+              signType: "MD5", //微信签名方式：
               paySign: res.data.sign, //微信签名
             },
             function (res) {
-              if (res.err_msg == 'get_brand_wcpay_request:ok') {
+              if (res.err_msg == "get_brand_wcpay_request:ok") {
                 that.$router.push({
-                  path: '/success',
-                  query: { houseSnOrAddress: info.id },
-                })
+                  path: "/success",
+                  query: { id: info.id },
+                });
                 // 使用以上方式判断前端返回,微信团队郑重提示：
                 //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
               } else {
-                Window.localStorage.setItem('msg', '失败原因')
-                that.$router.push({
-                  path: '/failure',
-                })
+                // Window.localStorage.setItem('msg', '失败原因')
+                // that.$router.push({
+                //   path: '/failure',
+                // })
+                // 支付失败
+                Notify("支付失败");
               }
             }
-          )
+          );
         } else {
           // 支付失败
-          Notify(res.data.result.err_code_des)
+          Notify(res.data.result.err_code_des);
         }
-      })
+      });
     },
   },
-}
+};
 </script>
 
 <style lang="sass" scoped>

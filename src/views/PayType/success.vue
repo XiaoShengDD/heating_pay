@@ -15,30 +15,30 @@
 </template>
 
 <script>
-import Swiper from '@/components/swiper' // secondary package based on el-pagination
-import { wxOrderDeatil } from '@/api/index'
+import Swiper from "@/components/swiper"; // secondary package based on el-pagination
+import { wxOrderDeatil } from "@/api/index";
 export default {
-  name: 'success',
+  name: "success",
   components: { Swiper },
   data() {
     return {
       list: {},
-    }
+    };
   },
   created() {
-    this.getInfo()
+    this.getInfo();
   },
   methods: {
     getInfo() {
       wxOrderDeatil(this.$route.query.id).then((res) => {
-        this.list = res.data
-      })
+        this.list = res.data;
+      });
     },
     onClickRight() {
-      this.$router.push({ path: '/list' })
+      this.$router.push({ path: "/list" });
     },
   },
-}
+};
 </script>
 
 <style lang="sass" scoped>

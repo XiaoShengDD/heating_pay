@@ -20,25 +20,25 @@
 </template>
 
 <script>
-import Swiper from '@/components/swiper' // secondary package based on el-pagination
+import Swiper from "@/components/swiper"; // secondary package based on el-pagination
 
 export default {
-  name: 'pay',
+  name: "pay",
   components: { Swiper },
   data() {
     return {
-      code: '9999999',
-    }
+      code: "",
+    };
   },
   methods: {
     // 缴费信息差寻
     onSubmit() {
-      if (this.code != '') {
-        this.$router.push({ path: '/PayInfo', query: { id: this.code } })
+      if (this.code != "") {
+        this.$router.push({ path: "/PayInfo", query: { id: this.code } });
       }
     },
   },
-}
+};
 </script>
 
 <style lang="sass" scoped>

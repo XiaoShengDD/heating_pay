@@ -24,53 +24,53 @@
 </template>
 
 <script>
-import Swiper from '@/components/swiper' // secondary package based on el-pagination
-import { wxOrderList, wxOrderDeatil } from '@/api/index'
+import Swiper from "@/components/swiper"; // secondary package based on el-pagination
+import { wxOrderList, wxOrderDeatil } from "@/api/index";
 
 export default {
-  name: 'list',
+  name: "list",
   components: { Swiper },
   data() {
     return {
-      activeNames: ['0'],
+      activeNames: ["0"],
       list: [],
       index: 0,
-    }
+    };
   },
   created() {
-    this.getHistoryPay()
+    this.getHistoryPay();
   },
   methods: {
     getHistoryPay() {
       // 用户编号，全局变量
-      wxOrderList(window.localStorage.getItem('openid')).then((res) => {
+      wxOrderList(window.localStorage.getItem("openid")).then((res) => {
         for (let key in res.data) {
           this.list.push({
             date: key,
             id: res.data[key],
             info: {
-              payHouseholdSn: '',
-              orderStatus: '',
-              payYear: '',
-              orderPrice: '',
-              houseAddress: '',
-              acreage: '',
+              payHouseholdSn: "",
+              orderStatus: "",
+              payYear: "",
+              orderPrice: "",
+              houseAddress: "",
+              acreage: "",
             },
-          })
+          });
         }
-      })
+      });
     },
 
     // 查询用户支付详细信息
     getPayInfo(index) {
-      if (typeof index == 'number') {
+      if (typeof index == "number") {
         wxOrderDeatil(this.list[index].id).then((res) => {
-          this.list[index].info = res.data
-        })
+          this.list[index].info = res.data;
+        });
       }
     },
   },
-}
+};
 </script>
 
 <style lang="scss" >
