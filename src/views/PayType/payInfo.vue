@@ -90,7 +90,7 @@ export default {
       let that = this;
       let data = {
         orderPrice: info.orderPrice,
-        householdSn: this.$route.query.id,
+        householdSn: info.householdSn,
         weixinOpenid: window.localStorage.getItem("openid"),
       };
       subimtOrder(data).then((res) => {

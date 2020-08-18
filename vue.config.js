@@ -13,5 +13,13 @@ module.exports = {
     indexPath: "index.html",
     //文件名哈希
     filenameHashing: true,
+    chainWebpack: config => {
+        config
+            .plugin('html')
+            .tap(args => {
+                args[0].title = '民生热力缴费系统'
+                return args
+            })
+    }
 
 }
