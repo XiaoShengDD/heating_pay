@@ -54,7 +54,7 @@ export default {
           if (res.errno == 0) {
             window.localStorage.setItem("openid", res.data.openid);
             if (this.getQueryVariable("code")) {
-              window.location.href = "http://eroad.mynatapp.cc/h-web/#/home";
+              window.location.href = "https://eroad.mynatapp.cc/h-web/#/home";
             }
           }
         });
@@ -63,7 +63,7 @@ export default {
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
           this.AppId
         }&redirect_uri=${encodeURIComponent(
-          "http://eroad.mynatapp.cc/h-web/#/home"
+          "https://eroad.mynatapp.cc/h-web/#/home"
         )}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`;
       }
     },
