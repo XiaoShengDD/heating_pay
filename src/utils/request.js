@@ -1,5 +1,6 @@
+import promise from 'es6-promise'
+promise.polyfill()
 import axios from "axios";
-import router from "../router/index";
 
 // import store from "@/store";
 // import { getToken } from "@/utils/auth";
@@ -48,6 +49,7 @@ service.interceptors.response.use(
     return response.data;
   },
   error => {
+    alert(JSON.stringify(error));
     console.log(error);
     return error;
   }

@@ -20,6 +20,7 @@ module.exports = {
                 args[0].title = '民生热力缴费系统'
                 return args
             })
-    }
+    },
+
 
 }

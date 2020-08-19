@@ -36,7 +36,7 @@ export function wxHouseholdInfo(id) {
 }
 
 
-// 差寻住户历史消费列表
+// 查询住户历史消费列表
 export function wxOrderList(id) {
   return request({
     url: "/heating/wxOrderList/" + id,
@@ -68,4 +68,3 @@ export function subimtOrder(data) {
     data: data
   });
 }
-
