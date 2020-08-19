@@ -2,6 +2,7 @@
   <div class="home">
     <van-nav-bar title="公告通知" />
     <swiper />
+
     <router-link v-for="item in list" :key="item.id" :to="{path: `/des/${item.id}`}">
       <div class="info">
         <div class="title">{{item.title}}</div>
@@ -11,32 +12,36 @@
         </div>
       </div>
     </router-link>
+
+    <div v-if="list.length == 0">
+      <p class="error">暂无公告</p>
+    </div>
   </div>
 </template>
 
 <script>
-import Swiper from '@/components/swiper' // secondary package based on el-pagination
-import { announcementList } from '@/api/index'
+import Swiper from "@/components/swiper"; // secondary package based on el-pagination
+import { announcementList } from "@/api/index";
 
 export default {
-  name: 'home',
+  name: "home",
   components: { Swiper },
   data() {
     return {
       list: [],
-    }
+    };
   },
   created() {
-    this.getList()
+    this.getList();
   },
   methods: {
     getList() {
       announcementList().then((res) => {
-        this.list = res.data
-      })
+        this.list = res.data;
+      });
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -58,5 +63,10 @@ export default {
 .time {
   text-align: right;
   color: #ccc;
+}
+
+.error {
+  padding: 10px;
+  text-align: left;
 }
 </style>>

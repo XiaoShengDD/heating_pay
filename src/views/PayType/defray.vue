@@ -23,18 +23,16 @@
 
 <script>
 export default {
-  name: 'defray',
+  name: "defray",
   data() {
-    return {
-      activeNames: ['1'],
-    }
+    return {};
   },
   methods: {
     onClickLeft() {},
     onClickRight() {},
     onSubmit() {},
   },
-}
+};
 </script>
 
 <style lang="sass" scoped>

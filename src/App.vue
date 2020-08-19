@@ -34,7 +34,7 @@ export default {
       if (!window.localStorage.getItem("openid")) {
         // 获取openId
         if (this.getQueryVariable("code")) {
-          let code = this.getQueryVariable("code").replace("&state=123", "");
+          let code = this.getQueryVariable("code");
           this.getCode(code);
         } else {
           this.getCode();
@@ -53,7 +53,9 @@ export default {
         wxLogin(code).then((res) => {
           if (res.errno == 0) {
             window.localStorage.setItem("openid", res.data.openid);
-            window.location.href = "http://eroad.mynatapp.cc/h-web/#/home";
+            if (this.getQueryVariable("code")) {
+              window.location.href = "http://eroad.mynatapp.cc/h-web/#/home";
+            }
           }
         });
       } else {

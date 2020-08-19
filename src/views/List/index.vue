@@ -32,7 +32,7 @@ export default {
   components: { Swiper },
   data() {
     return {
-      activeNames: ["0"],
+      activeNames: "",
       list: [],
       index: 0,
     };
@@ -63,7 +63,12 @@ export default {
 
     // 查询用户支付详细信息
     getPayInfo(index) {
-      if (typeof index == "number") {
+      if (
+        index != "" &&
+        index != null &&
+        index != "null" &&
+        index != undefined
+      ) {
         wxOrderDeatil(this.list[index].id).then((res) => {
           this.list[index].info = res.data;
         });
