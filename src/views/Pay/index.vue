@@ -7,8 +7,8 @@
         <van-field
           v-model="code"
           name="code"
-          placeholder="请输入住房编号或房屋地址"
-          :rules="[{ required: true, message: '请输入住房编号或房屋地址' }]"
+          placeholder="住房编号或房屋地址"
+          :rules="[{ required: true, message: '住房编号和房租住址不得为空' }]"
         />
 
         <div style="margin: 20px 0;">
@@ -20,25 +20,26 @@
 </template>
 
 <script>
-import Swiper from "@/components/swiper"; // secondary package based on el-pagination
+import Swiper from '@/components/swiper' // secondary package based on el-pagination
 
 export default {
-  name: "pay",
+  name: 'pay',
   components: { Swiper },
   data() {
     return {
-      code: "",
-    };
+      code: '',
+    }
   },
   methods: {
     // 缴费信息差寻
     onSubmit() {
-      if (this.code != "") {
-        this.$router.push({ path: "/PayInfo", query: { id: this.code } });
+      if (this.code != '') {
+        window.localStorage.setItem('code', this.code)
+        this.$router.push({ path: '/PayInfo' })
       }
     },
   },
-};
+}
 </script>
 
 <style lang="sass" scoped>
