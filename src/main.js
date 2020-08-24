@@ -20,6 +20,8 @@ import {
   Field,
   Cell,
   CellGroup,
+  Loading,
+  List
 } from 'vant';
 Vue.use(Tabbar);
 Vue.use(TabbarItem);
@@ -35,6 +37,8 @@ Vue.use(Form);
 Vue.use(Field);
 Vue.use(Cell);
 Vue.use(CellGroup);
+Vue.use(Loading);
+Vue.use(List);
 
 
 import {

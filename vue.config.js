@@ -1,7 +1,9 @@
 // Vue.config.js 配置选项
 const FileManagerPlugin = require('filemanager-webpack-plugin')
 module.exports = {
-
+    devServer: {
+        port: "8189",
+    },
     // 选项
     //  基本路径
     publicPath: "./",
