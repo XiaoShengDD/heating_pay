@@ -9,15 +9,15 @@
 </template>
 
 <script>
-import bg from "@/assets/bg.jpg";
+import bg from '@/assets/bg.png'
 export default {
-  name: "Swiper",
+  name: 'Swiper',
   data() {
     return {
       images: [bg],
-    };
+    }
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -21,7 +21,7 @@ import {
   Cell,
   CellGroup,
   Loading,
-  List
+  List,
 } from 'vant';
 Vue.use(Tabbar);
 Vue.use(TabbarItem);
