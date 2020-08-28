@@ -1,6 +1,9 @@
 <template>
   <div class="home">
-    <van-nav-bar title="公告详情" left-text="返回" left-arrow @click-left="onClickLeft" />
+    <van-sticky :offset-top="0">
+      <van-nav-bar title="公告详情" left-text="返回" left-arrow @click-left="onClickLeft" />
+    </van-sticky>
+
     <swiper />
 
     <div class="info">
@@ -18,31 +21,31 @@
 </template>
 
 <script>
-import Swiper from '@/components/swiper' // secondary package based on el-pagination
-import { announcementDetail } from '@/api/index'
+import Swiper from "@/components/swiper"; // secondary package based on el-pagination
+import { announcementDetail } from "@/api/index";
 
 export default {
-  name: 'home',
+  name: "home",
   components: { Swiper },
   data() {
     return {
       des: {},
-    }
+    };
   },
   created() {
-    this.getDes()
+    this.getDes();
   },
   methods: {
     getDes() {
       announcementDetail(this.$route.params.id).then((res) => {
-        this.des = res.data
-      })
+        this.des = res.data;
+      });
     },
     onClickLeft() {
-      this.$router.go(-1) //返回上一层
+      this.$router.go(-1); //返回上一层
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

@@ -1,12 +1,14 @@
 <template>
   <div class="defray">
-    <van-nav-bar
-      title="支付"
-      left-text="返回"
-      left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
-    />
+    <van-sticky :offset-top="0">
+      <van-nav-bar
+        title="支付"
+        left-text="返回"
+        left-arrow
+        @click-left="onClickLeft"
+        @click-right="onClickRight"
+      />
+    </van-sticky>
 
     <div class="price">
       <span>￥</span> 88.6

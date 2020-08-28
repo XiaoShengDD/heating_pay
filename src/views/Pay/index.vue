@@ -1,6 +1,9 @@
 <template>
   <div class="pay">
-    <van-nav-bar title="查询缴费信息" />
+    <van-sticky :offset-top="0">
+      <van-nav-bar title="查询缴费信息" />
+    </van-sticky>
+
     <swiper />
     <div class="form_box">
       <van-form @submit="onSubmit">
@@ -20,26 +23,26 @@
 </template>
 
 <script>
-import Swiper from '@/components/swiper' // secondary package based on el-pagination
+import Swiper from "@/components/swiper"; // secondary package based on el-pagination
 
 export default {
-  name: 'pay',
+  name: "pay",
   components: { Swiper },
   data() {
     return {
-      code: '',
-    }
+      code: "",
+    };
   },
   methods: {
     // 缴费信息差寻
     onSubmit() {
-      if (this.code != '') {
-        window.localStorage.setItem('code', this.code)
-        this.$router.push({ path: '/PayInfo' })
+      if (this.code != "") {
+        window.localStorage.setItem("code", this.code);
+        this.$router.push({ path: "/PayInfo" });
       }
     },
   },
-}
+};
 </script>
 
 <style lang="sass" scoped>

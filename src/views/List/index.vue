@@ -1,6 +1,8 @@
 <template>
   <div class="list">
-    <van-nav-bar title="缴费记录" />
+    <van-sticky :offset-top="0">
+      <van-nav-bar title="缴费记录" />
+    </van-sticky>
     <swiper />
 
     <van-collapse v-model="activeNames">
@@ -17,7 +19,7 @@
     </van-collapse>
 
     <div v-if="list.length == 0">
-      <p class="error">暂无订单信息</p>
+      <p class="error">暂无缴费信息</p>
     </div>
   </div>
 </template>

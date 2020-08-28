@@ -1,6 +1,9 @@
 <template>
   <div class="home">
-    <van-nav-bar title="公告通知" />
+    <van-sticky :offset-top="0">
+      <van-nav-bar title="公告通知" />
+    </van-sticky>
+
     <swiper />
 
     <router-link v-for="item in list" :key="item.id" :to="{path: `/des/${item.id}`}">

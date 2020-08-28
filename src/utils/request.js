@@ -49,7 +49,7 @@ service.interceptors.response.use(
     return response.data;
   },
   error => {
-    alert(JSON.stringify(error));
+    alert("异常" + JSON.stringify(error));
     console.log(error);
     return error;
   }

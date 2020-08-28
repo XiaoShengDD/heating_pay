@@ -1,6 +1,9 @@
 <template>
   <div class="success">
-    <van-nav-bar title="缴费成功" right-text="查看缴费记录" @click-right="onClickRight" />
+    <van-sticky :offset-top="0">
+      <van-nav-bar title="缴费成功" right-text="查看缴费记录" @click-right="onClickRight" />
+    </van-sticky>
+
     <swiper />
 
     <div class="payInfo">

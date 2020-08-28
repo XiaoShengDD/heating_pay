@@ -22,6 +22,7 @@ import {
   CellGroup,
   Loading,
   List,
+  Sticky
 } from 'vant';
 Vue.use(Tabbar);
 Vue.use(TabbarItem);
@@ -39,6 +40,7 @@ Vue.use(Cell);
 Vue.use(CellGroup);
 Vue.use(Loading);
 Vue.use(List);
+Vue.use(Sticky);
 
 
 import {

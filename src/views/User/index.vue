@@ -1,6 +1,9 @@
 <template>
   <div class="user">
-    <van-nav-bar title="个人中心" />
+    <van-sticky :offset-top="0">
+      <van-nav-bar title="个人中心" />
+    </van-sticky>
+
     <div class="header">
       <p class="agent_name">{{info.exchangeSn}}</p>
       <div class="user_info_box">
@@ -21,32 +24,32 @@
 <script>
 import {
   wxHouseholdInfo, // 查询个人信息
-} from '@/api/index'
+} from "@/api/index";
 
 export default {
-  name: 'user',
+  name: "user",
   data() {
     return {
-      activeNames: ['1'],
+      activeNames: ["1"],
       info: {},
-    }
+    };
   },
   created() {
-    this.getUserInfo()
+    this.getUserInfo();
   },
   methods: {
     getUserInfo() {
       // 查询个人信息
-      wxHouseholdInfo('32164').then((res) => {
-        this.info = res.data
-      })
+      wxHouseholdInfo("32164").then((res) => {
+        this.info = res.data;
+      });
     },
     // 查询缴费记录接口
     getrRecording() {
-      this.$router.push({ path: '/list' })
+      this.$router.push({ path: "/list" });
     },
   },
-}
+};
 </script>
 
 <style lang="sass" >

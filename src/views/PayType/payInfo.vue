@@ -1,6 +1,8 @@
 <template>
   <div class="payInfo">
-    <van-nav-bar :title="title" left-text="返回" left-arrow @click-left="onClickLeft" />
+    <van-sticky :offset-top="0">
+      <van-nav-bar :title="title" left-text="返回" left-arrow @click-left="onClickLeft" />
+    </van-sticky>
     <swiper />
 
     <van-list
@@ -21,7 +23,7 @@
           </template>
           <div>
             <p>住户编号：{{ item.householdSn }}</p>
-            <p>姓名：{{ item.householdName }}</p>
+            <p>住户姓名：{{ item.householdName }}</p>
             <p>代缴编号：{{ item.exchangeSn }}</p>
             <p>房屋地址：{{ item.houseAddress }}</p>
             <p>建筑面积：{{ item.acreage }}</p>
@@ -36,28 +38,28 @@
       </van-collapse>
     </van-list>
 
-    <van-dialog title="标题" v-model="show" show-cancel-button :before-close="beforeClose">
+    <van-dialog title="身份验证" v-model="show" show-cancel-button :before-close="beforeClose">
       <van-field
+        label-width="60px"
         v-model="username"
-        name="用户名"
-        label="用户名"
-        placeholder="用户名"
-        :rules="[{ required: true, message: '请填写用户名' }]"
+        name="住户姓名"
+        label="住户姓名"
+        placeholder="请填写住户姓名"
       />
     </van-dialog>
   </div>
 </template>
 
 <script>
-import Swiper from '@/components/swiper' // secondary package based on el-pagination
-import { Notify, Dialog } from 'vant'
+import Swiper from "@/components/swiper"; // secondary package based on el-pagination
+import { Notify, Dialog } from "vant";
 import {
   wxHouseholdSearch,
   subimtOrder,
   wxHouseholdConfirmr,
-} from '@/api/index'
+} from "@/api/index";
 export default {
-  name: 'success',
+  name: "success",
   // components: { Swiper },
   components: {
     [Notify.Component.name]: Notify.Component,
@@ -71,21 +73,21 @@ export default {
       loading: false,
       finished: false,
       dataJson: [],
-      title: '缴费房屋',
-      right: '',
+      title: "缴费房屋",
+      right: "",
       activeNames: [],
       idnexList: [], // 记录已打开链接
       idnex: 0, // 当前打开的弹层
       pages: 0,
       info: {}, // 当前打开的用户信息
       error: false,
-      username: '',
+      username: "",
       data: {
-        houseSnOrAddress: localStorage.getItem('code'),
+        houseSnOrAddress: localStorage.getItem("code"),
         page: 0,
         limit: 20,
       },
-    }
+    };
   },
 
   created() {
@@ -95,95 +97,94 @@ export default {
   methods: {
     getInfo(e) {
       if (e.length > this.activeNames.length) {
-        this.index = JSON.parse(JSON.stringify(e)).pop()
-        this.info = this.dataJson[this.index]
+        this.index = JSON.parse(JSON.stringify(e)).pop();
+        this.info = this.dataJson[this.index];
         if (this.idnexList.indexOf(this.index) == -1) {
-          e.pop()
-          this.show = true
+          e.pop();
+          this.show = true;
         }
       }
     },
     beforeClose: function (action, done) {
-      const that = this
+      const that = this;
       // 点击事件 - 备注按钮提示框
-      if (action === 'confirm') {
+      if (action === "confirm") {
         // 确认
         let data = {
           householdName: this.username,
           householdSn: this.info.householdSn,
-        }
+        };
 
         wxHouseholdConfirmr(data).then((res) => {
           if (res.data) {
-            let a = []
-            a.push(this.index)
-            debugger
-            this.activeNames = [...this.activeNames, ...a]
+            let a = [];
+            a.push(this.index);
+            this.activeNames = [...this.activeNames, ...a];
             if (this.idnexList.indexOf(this.index) == -1) {
-              this.idnexList = [...this.idnexList, ...a]
+              this.idnexList = [...this.idnexList, ...a];
             }
           } else {
-            Notify('姓名输入错误')
+            Notify("姓名输入错误");
           }
-          this.username = ''
-        })
-        done() // 关闭提示框
-      } else if (action === 'cancel') {
+          this.username = "";
+        });
+        done(); // 关闭提示框
+      } else if (action === "cancel") {
         // 取消
-        console.log('[点击事件 - 备注] - 取消')
-        done() // 关闭提示框
+        console.log("[点击事件 - 备注] - 取消");
+        done(); // 关闭提示框
       }
     },
 
     getPayInfo() {
-      this.data.page++
+      this.data.page++;
       wxHouseholdSearch(this.data).then((res) => {
-        if (res.errmsg == '成功') {
-          this.dataJson = [...this.dataJson, ...res.data.records]
-          this.pages = res.data.pages
+        if (res.errmsg == "成功") {
+          this.dataJson = [...this.dataJson, ...res.data.records];
+          this.pages = res.data.pages;
           if (this.pages == this.data.page) {
-            this.finished = true
+            this.finished = true;
           }
         } else {
-          this.error = true
+          this.error = true;
         }
-        this.loading = false
-      })
+        this.loading = false;
+      });
     },
     onClickLeft() {
-      this.$router.go(-1) //返回上一层
+      this.$router.go(-1); //返回上一层
     },
     //支付
     submit(info) {
-      let that = this
+      let that = this;
       let data = {
         orderPrice: info.orderPrice,
         householdSn: info.householdSn,
-        weixinOpenid: window.localStorage.getItem('openid'),
-      }
+        weixinOpenid: window.localStorage.getItem("openid"),
+      };
       subimtOrder(data).then((res) => {
         if (
           res.data.result.result_code &&
-          res.data.result.result_code == 'SUCCESS'
+          res.data.result.result_code == "SUCCESS"
         ) {
-          let id = res.data.id
+          let id = res.data.id;
           // 调起支付
           WeixinJSBridge.invoke(
-            'getBrandWCPayRequest',
+            "getBrandWCPayRequest",
             {
               appId: res.data.appId, //公众号名称，由商户传入
               timeStamp: res.data.timestamp, //时间戳，自1970年以来的秒数
               nonceStr: res.data.nonce_str, //随机串
               package: res.data.prepay_id,
-              signType: 'MD5', //微信签名方式：
+              signType: "MD5", //微信签名方式：
               paySign: res.data.sign, //微信签名
             },
             function (res) {
-              if (res.err_msg == 'get_brand_wcpay_request:ok') {
+              if (res.err_msg == "get_brand_wcpay_request:ok") {
                 that.$router.push({
-                  path: '/success',
+                  path: "/success",
                   query: { id: id },
-                })
+                });
                 // 使用以上方式判断前端返回,微信团队郑重提示：
                 //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
               } else {
@@ -192,18 +193,18 @@ export default {
                 //   path: '/failure',
                 // })
                 // 支付失败
-                Notify('支付失败')
+                Notify("支付失败");
               }
             }
-          )
+          );
         } else {
           // 支付失败
-          Notify(res.data.result.err_code_des)
+          Notify(res.data.result.err_code_des);
         }
-      })
+      });
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
