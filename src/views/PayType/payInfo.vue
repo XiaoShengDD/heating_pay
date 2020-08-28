@@ -40,7 +40,7 @@
 
     <van-dialog title="身份验证" v-model="show" show-cancel-button :before-close="beforeClose">
       <van-field
-        label-width="60px"
+        label-width="70px"
         v-model="username"
         name="住户姓名"
         label="住户姓名"
